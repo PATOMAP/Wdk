@@ -1,67 +1,26 @@
-
-/* TASK:
-
-Print all labels defined with #define directive in "yy.lex.c" file. 
-
-*/ 
-
-%option noyywrap 
-
+/*** Definition Section has one variable
+which can be accessed inside yylex() 
+and main() ***/
 %{
-	
-	#include <iostream>
-   	#include <set>
-   	#include <string>
-	 
-	
-#ifdef _WIN32
-    // needed by Visual Studio compiler:
-	int isatty (int a)  // is deprecated, use _isatty instead
-	{
-	    return _isatty(a);
-	}
-	
-	int fileno (FILE * f)
-	{
-	    return _fileno(f);
-	}
-#endif
-	
-#define DEBUG(x)  cerr << __FILE__ << " (" << __LINE__ << ") " << #x << " == " << x << endl;	
 
-
-    std::set<std::string> labels;
-       
-	
 %}
- 
-%x DEFINED
- 
+ALL [A-Z][a-z]+
 
 %%
- 
- 
- 
- 
-\r?\n                      {  /* remove newlines */ }                           
-.                          {  /* remove all characters */ }
+({ALL}\.{ALL}|[a-z]+)@gmail\.com printf("e-mail: %s \n", yytext);
 
-
-
+\n {return 0;}
 %%
 
- 
+/*** Code Section prints the number of
+capital letter present in the given input***/
+int yywrap(){}
+int main(){
 
-int main() 
-{
-    yyin = fopen ("lex.yy.c", "r");
-    yylex();   
-    
-    for (const auto t : labels)
-    {
-        std::cout << t << std::endl;
-    }
-    return 0;
+
+
+yylex();
+
+
+return 0;
 }
-
- 
