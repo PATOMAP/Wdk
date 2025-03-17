@@ -1,14 +1,15 @@
 /*** Definition Section has one variable
 which can be accessed inside yylex() 
-and main() ***/
+and main() ({ALL}\.{ALL}|[a-z]+)@gmail\.com printf("e-mail: %s \n", yytext); ***/
 %{
 
 %}
 ALL [A-Z][a-z]+
 
 %%
-({ALL}\.{ALL}|[a-z]+)@gmail\.com printf("e-mail: %s \n", yytext);
 
+[a-zA-Z0-9]+.+[a-zA-Z0-9]+[\@\]+[a-z]+.+[a-z] printf("e-mail: %s \n", yytext);
+.*                                              printf("To nie jest e-mail: %s \n", yytext);
 \n {return 0;}
 %%
 
