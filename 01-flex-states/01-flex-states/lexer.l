@@ -1,6 +1,6 @@
 /*** Definition Section has one variable
 which can be accessed inside yylex() 
-and main() [a-zA-Z0-9!@#$%^&*()_+=-]{8,15}  ***/
+and main()  ***/
 
 /***Task1***/
 /*** 
@@ -12,7 +12,7 @@ and main() [a-zA-Z0-9!@#$%^&*()_+=-]{8,15}  ***/
 /*** 
 \n         {lines++;printf("Count lines:%d\n",lines);}
 \t         {tabs++;printf("Count tabs:%d\n",tabs);}
-{WORDS}      {words++;printf("Count word:%d\n",words);} 
+{WORDS}      {words++;printf("Count word:%d word:%s\n",words,yytext);} 
 ***/
 /*** Task3 ***/
 /***
@@ -45,8 +45,10 @@ and main() [a-zA-Z0-9!@#$%^&*()_+=-]{8,15}  ***/
         int lines =0;
 %}
 
-EMAIL [a-zA-Z0-9]+\.+[a-zA-Z0-9]+*@[a-zA-Z0-9]+\.[a-zA-Z]{2,}
+EMAIL [a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@[a-zA-Z0-9]+\.[a-zA-Z]{2,3}
 PASSWORD  [a-zA-Z0-9!@#$%^&*()_+=-]{8,15}
+TABS  \t 
+LINES  \n 
 WORDS  [a-zA-Z]{2,}
 FLOAT [0-9]+[.]+[0-9]
 PLUS [\+]
@@ -71,8 +73,8 @@ BOOL true|false
 
 %%
 end        { printf("End program\n"); return 0; }
-\n         {lines++;printf("Count lines:%d\n",lines);}
-\t         {tabs++;printf("Count tabs:%d\n",tabs);}
+{LINES}        {lines++;printf("Count lines:%d\n",lines);}
+{TABS}     {tabs++;printf("Count tabs:%d\n",tabs);}
 {WORDS}      {words++;printf("Count word:%d word:%s\n",words,yytext);} 
 {EMAIL} {printf("E-mail: %s \n", yytext);}
 {PASSWORD} { printf("Hasło: %s \n", yytext); } 
