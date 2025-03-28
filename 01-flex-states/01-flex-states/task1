@@ -1,0 +1,23 @@
+%{
+#include <stdio.h>
+%}
+
+%x COMMENT
+
+%%
+
+"//" { BEGIN(COMMENT); }    /* Komentarz jednoliniowy */
+"/*" { BEGIN(COMMENT); }    /* Komentarz wieloliniowy */
+
+<COMMENT>[^*\n]*   ;        /* Ignorowanie treści komentarza */
+<COMMENT>"*"+[^*/\n]*   ;   /* Ignorowanie gwiazdek */
+<COMMENT>"*"+"/" { BEGIN(INITIAL); }  /* Koniec komentarza */
+^.{133,}$ {printf("Za duzo znakow:%s",yytext);}
+%%
+
+int yywrap() { return 1; }
+
+int main() {
+    yylex();
+    return 0;
+}
