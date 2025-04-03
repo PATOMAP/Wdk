@@ -14,7 +14,7 @@
 
 %verbose 
 
-%token PLUS TIMES NUMBER EQUAL
+%token PLUS TIMES NUMBER EQUAL SUBSTARCT DIVIDE
 	
 %%
 
@@ -23,6 +23,19 @@ total      : expression EQUAL                {  std::cout <<  $1 << std::endl;  
 
 expression : expression expression PLUS      {  $$ = $1 + $2;   }
            | expression expression TIMES     {  $$ = $1 * $2;   } 
+           | expression expression SUBSTARCT {  $$ = $1 - $2;   } 
+           | expression expression DIVIDE    
+           {  
+            if($2!=0)
+            {
+                          $$ = $1 / $2;  
+            }
+            else
+            {
+                       yyerror("Divison by 0 !");
+            }
+ 
+            } 
            | NUMBER                          {  $$ = $1;   }
            ;
 	

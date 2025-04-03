@@ -16,6 +16,8 @@
 "*"            return TIMES;
 "+"            return PLUS;
 =              return EQUAL;
+"-"            return SUBSTARCT;
+"/"            return DIVIDE;
 .              /* remove other characters */
               
 
