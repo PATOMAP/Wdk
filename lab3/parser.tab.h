@@ -53,8 +53,9 @@ extern int yydebug;
     TIMES = 259,
     NUMBER = 260,
     EQUAL = 261,
-    SUBSTARCT = 262,
-    DIVIDE = 263
+    SUBSTRACT = 262,
+    DIVIDE = 263,
+    POWER = 264
   };
 #endif
 

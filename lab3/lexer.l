@@ -16,8 +16,9 @@
 "*"            return TIMES;
 "+"            return PLUS;
 =              return EQUAL;
-"-"            return SUBSTARCT;
+"-"            return SUBSTRACT;
 "/"            return DIVIDE;
+"pow"          return POWER;
 .              /* remove other characters */
               
 

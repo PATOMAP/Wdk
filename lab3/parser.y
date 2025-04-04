@@ -3,7 +3,8 @@
 	#include <stdlib.h>
 	#include <stdio.h>
 	#include <iostream>
-	
+	#include <math.h>
+
 	void yyerror(char *s);
 	int yylex();
 	extern FILE* yyin;
@@ -14,28 +15,32 @@
 
 %verbose 
 
-%token PLUS TIMES NUMBER EQUAL SUBSTARCT DIVIDE
-	
+%token PLUS TIMES NUMBER EQUAL SUBSTRACT DIVIDE POWER
+%left SUBSTRACT PLUS	
+%left DIVIDE TIMES
+%left POWER
 %%
 
 total      : expression EQUAL                {  std::cout <<  $1 << std::endl;   }
            ;
 
-expression : expression expression PLUS      {  $$ = $1 + $2;   }
-           | expression expression TIMES     {  $$ = $1 * $2;   } 
-           | expression expression SUBSTARCT {  $$ = $1 - $2;   } 
-           | expression expression DIVIDE    
+expression : expression PLUS  expression      {  $$ = $1 + $3;   }
+           | expression TIMES  expression     {  $$ = $1 * $3;   } 
+           | expression SUBSTRACT expression  {  $$ = $1 - $3;   } 
+           | expression POWER expression      {  $$ = pow($1,$3);   } 
+           | expression DIVIDE expression     
            {  
             if($2!=0)
             {
-                          $$ = $1 / $2;  
+                          $$ = $1 / $3;  
             }
             else
             {
                        yyerror("Divison by 0 !");
+                       
             }
  
-            } 
+            }  
            | NUMBER                          {  $$ = $1;   }
            ;
 	
