@@ -1,38 +1,45 @@
 %{
 #include <stdio.h>
+#include <stdlib.h>
+#include <dirent.h>
+#include <string.h>
 
 int fileCount = 0;
+int fileCountITC = 0;
+bool flagItc = false;
 
 %}
+
 %x COMMENT
 %%
 
-<<EOF>> { 
+<<EOF>> {
     fileCount++;
-    printf("Przetworzono %d plików\n", fileCount);
-    yyterminate();
+    printf("Przetworzono %d plik(ów).\n\n", fileCount);
+    return 0; // zamiast yyterminate, wracamy do maina (kontynuujemy dla innych plików)
 }
-"//" { BEGIN(COMMENT); }    /* Komentarz jednoliniowy */
-"/*" { BEGIN(COMMENT); }    /* Komentarz wieloliniowy */
 
-<COMMENT>[^*\n]*   ;        /* Ignorowanie treści komentarza */
-<COMMENT>"*"+[^*/\n]*   ;   /* Ignorowanie gwiazdek */
-<COMMENT>"*"+"/" { BEGIN(INITIAL); }  /* Koniec komentarza */
-^.{133,}$ {printf("Za duzo znakow:%s",yytext);}
+"//"               { BEGIN(COMMENT); }                    // Komentarz jednoliniowy
+"/*"               { BEGIN(COMMENT); }                    // Komentarz wieloliniowy
+
+<COMMENT>[^*\n]*   ;                                      // Ignoruj treść komentarza
+<COMMENT>"*"+[^*/\n]* ;                                   // Ignoruj gwiazdki
+<COMMENT>"*"+"/"   { BEGIN(INITIAL); }                    // Koniec komentarza
+
+^.{133,}$          { printf("Za dużo znaków: %s\n", yytext); }
+
 %%
 
-int yywrap() { return 1; }
+int yywrap(void) {
+    return 1; // kończymy skanowanie danego pliku
+}
 
-int main(int argc, char **argv) {
-       const char*file="task.txt";
-        yylex();
-        yyin = fopen(file, "r");
-        if (!yyin) {
-            printf("Nie można otworzyć pliku: %s\n", file);
-            return 1;
-        }
-    
 
-    
-    return 0;
+
+int main() {
+
+
+
+            yylex();
+
 }
