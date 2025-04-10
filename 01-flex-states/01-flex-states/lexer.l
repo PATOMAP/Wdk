@@ -2,10 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 int fileCount = 0;
 int fileCountITC = 0;
 bool flagItc = false;
+int sumInFile=0;
 
 	#define MAX 100
 	YY_BUFFER_STATE buffer[MAX];
@@ -14,12 +16,25 @@ bool flagItc = false;
 
 %x COMMENT
 %x INCLUDE
+%s COUNT
 CHARS [a-zA-Z0-9]+
 %%
+[0-9]+ {
+        if(flagItc)
+        {
+            sumInFile=sumInFile+atoi(yytext);
+        }
+        else{
+            printf("%s",yytext);
+        }
+    }
 ^.{133,}$          { printf("Za dużo znaków: %s\n", yytext); }
 <INCLUDE>{
 [ \t\\#"<>{}]*		;
-{CHARS}"."{CHARS}	{
+{CHARS}"."{CHARS}">"? 	{
+        if (yytext[yyleng - 1] == '>') {
+        yytext[yyleng - 1] = '\0'; // ucinamy > jeśli jest
+      }
                         char *po_kropce = strchr(yytext, '.');
                         char itc[]="itc";
                         po_kropce++;
@@ -49,6 +64,9 @@ CHARS [a-zA-Z0-9]+
             {
                 fileCountITC++;
                  printf("\nPrzetworzono  %d plik(ów) ITC\n",fileCountITC);
+                 printf("\nSuma liczb w pliku %d\n",sumInFile);
+                 sumInFile=0;
+                 flagItc=false;
 
             }
             printf("\nKoniec pliku wczytanego!\nPrzetworzono %d plik(ów)\n",fileCount);
@@ -57,12 +75,13 @@ CHARS [a-zA-Z0-9]+
         }
 }
 
-"//"               { BEGIN(COMMENT); }                    // Komentarz jednoliniowy
+"//".* ;
 "/*"               { BEGIN(COMMENT); }                    // Komentarz wieloliniowy
 "include"			{BEGIN(INCLUDE);}
 <COMMENT>[^*\n]*   ;                                      // Ignoruj treść komentarza
 <COMMENT>"*"+[^*/\n]* ;                                   // Ignoruj gwiazdki
 <COMMENT>"*"+"/"   { BEGIN(INITIAL); }                    // Koniec komentarza
+
 
 
 
