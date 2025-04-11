@@ -1,0 +1,102 @@
+Nonterminals useless in grammar
+
+    total
+    expression
+
+
+Terminals unused in grammar
+
+    PLUS
+    TIMES
+    SUBSTRACT
+    DIVIDE
+    POWER
+    SIN
+    COS
+
+
+Grammar
+
+    0 $accept: convert $end
+
+    1 convert: ZMIENNA EQUAL ZMIENNA
+    2        | ZMIENNA EQUAL NUMBER
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    PLUS (258)
+    TIMES (259)
+    EQUAL (260) 1 2
+    SUBSTRACT (261)
+    DIVIDE (262)
+    POWER (263)
+    SIN (264)
+    COS (265)
+    NUMBER <dtype> (266) 2
+    ZMIENNA <x> (267) 1 2
+
+
+Nonterminals, with rules where they appear
+
+    $accept (13)
+        on left: 0
+    convert <x> (14)
+        on left: 1 2
+        on right: 0
+
+
+State 0
+
+    0 $accept: . convert $end
+
+    ZMIENNA  shift, and go to state 1
+
+    convert  go to state 2
+
+
+State 1
+
+    1 convert: ZMIENNA . EQUAL ZMIENNA
+    2        | ZMIENNA . EQUAL NUMBER
+
+    EQUAL  shift, and go to state 3
+
+
+State 2
+
+    0 $accept: convert . $end
+
+    $end  shift, and go to state 4
+
+
+State 3
+
+    1 convert: ZMIENNA EQUAL . ZMIENNA
+    2        | ZMIENNA EQUAL . NUMBER
+
+    NUMBER   shift, and go to state 5
+    ZMIENNA  shift, and go to state 6
+
+
+State 4
+
+    0 $accept: convert $end .
+
+    $default  accept
+
+
+State 5
+
+    2 convert: ZMIENNA EQUAL NUMBER .
+
+    $default  reduce using rule 2 (convert)
+
+
+State 6
+
+    1 convert: ZMIENNA EQUAL ZMIENNA .
+
+    $default  reduce using rule 1 (convert)
