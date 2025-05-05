@@ -17,24 +17,25 @@
 %union
 {
 double dtype;
-char ctype;
+std::string *x;
 }
 
 
 %verbose 
 
 
-%token PLUS TIMES EQUAL SUBSTRACT  DIVIDE POWER SIN COS
+%token PLUS TIMES EQUAL SUBSTRACT  DIVIDE POWER SIN COS 
 %token<dtype> NUMBER
 %type<dtype> total expression
+%type<x> convert
+%token<x> ZMIENNA
+
 %left SUBSTRACT PLUS	
 %left DIVIDE TIMES
 %left POWER
 %left SIN COS
 
 %%
-
-
 
 total      : expression EQUAL                {  std::cout <<  $1 << std::endl;   }
            ;
@@ -60,6 +61,13 @@ expression : expression PLUS  expression      {  $$ =  $1 + $3;   }
             }  
            | NUMBER                          {  $$ = $1;   }
            ;
+
+
+
+
+            convert : ZMIENNA EQUAL ZMIENNA  {std::cout << "To zmienna" << std::endl; }
+            ;
+
 	
 %%
 

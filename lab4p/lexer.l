@@ -20,8 +20,9 @@
 "/"            return DIVIDE;
 "pow"          return POWER;
 "sin"            return SIN;  
-"cos"            return COS;  
+"cos"            return COS;
+[a-zA-Z0-9]+      { yylval.x = new std::string(yytext); return ZMIENNA; }   
 .              /* remove other characters */
-              
+            
 
 %%

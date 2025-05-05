@@ -19,6 +19,7 @@
 "-"            return SUBSTRACT;
 "/"            return DIVIDE;
 "pow"          return POWER;
+"sqrt"          return SQRT;
 .              /* remove other characters */
               
 

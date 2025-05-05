@@ -1,9 +1,3 @@
-Nonterminals useless in grammar
-
-    total
-    expression
-
-
 Terminals unused in grammar
 
     PLUS
@@ -19,8 +13,14 @@ Grammar
 
     0 $accept: convert $end
 
-    1 convert: ZMIENNA EQUAL ZMIENNA
-    2        | ZMIENNA EQUAL NUMBER
+    1 convert: INT ZMIENNA EQUAL NUMBERINT SEMICOLON
+    2        | DOUBLE ZMIENNA EQUAL NUMBER SEMICOLON
+    3        | CHAR ZMIENNA EQUAL CHARVAL SEMICOLON
+    4        | STRING ZMIENNA EQUAL STRINGVAL SEMICOLON
+    5        | ZMIENNA EQUAL NUMBERINT
+    6        | ZMIENNA EQUAL NUMBER
+    7        | ZMIENNA EQUAL CHARVAL
+    8        | ZMIENNA EQUAL STRINGVAL
 
 
 Terminals, with rules where they appear
@@ -29,22 +29,30 @@ Terminals, with rules where they appear
     error (256)
     PLUS (258)
     TIMES (259)
-    EQUAL (260) 1 2
+    EQUAL (260) 1 2 3 4 5 6 7 8
     SUBSTRACT (261)
     DIVIDE (262)
     POWER (263)
     SIN (264)
     COS (265)
-    NUMBER <dtype> (266) 2
-    ZMIENNA <x> (267) 1 2
+    INT (266) 1
+    SEMICOLON (267) 1 2 3 4
+    DOUBLE (268) 2
+    CHAR (269) 3
+    STRING (270) 4
+    NUMBER <dtype> (271) 2 6
+    NUMBERINT <itype> (272) 1 5
+    ZMIENNA <x> (273) 1 2 3 4 5 6 7 8
+    CHARVAL <c> (274) 3 7
+    STRINGVAL <x> (275) 4 8
 
 
 Nonterminals, with rules where they appear
 
-    $accept (13)
+    $accept (21)
         on left: 0
-    convert <x> (14)
-        on left: 1 2
+    convert <x> (22)
+        on left: 1 2 3 4 5 6 7 8
         on right: 0
 
 
@@ -52,51 +60,215 @@ State 0
 
     0 $accept: . convert $end
 
-    ZMIENNA  shift, and go to state 1
+    INT      shift, and go to state 1
+    DOUBLE   shift, and go to state 2
+    CHAR     shift, and go to state 3
+    STRING   shift, and go to state 4
+    ZMIENNA  shift, and go to state 5
 
-    convert  go to state 2
+    convert  go to state 6
 
 
 State 1
 
-    1 convert: ZMIENNA . EQUAL ZMIENNA
-    2        | ZMIENNA . EQUAL NUMBER
+    1 convert: INT . ZMIENNA EQUAL NUMBERINT SEMICOLON
 
-    EQUAL  shift, and go to state 3
+    ZMIENNA  shift, and go to state 7
 
 
 State 2
 
-    0 $accept: convert . $end
+    2 convert: DOUBLE . ZMIENNA EQUAL NUMBER SEMICOLON
 
-    $end  shift, and go to state 4
+    ZMIENNA  shift, and go to state 8
 
 
 State 3
 
-    1 convert: ZMIENNA EQUAL . ZMIENNA
-    2        | ZMIENNA EQUAL . NUMBER
+    3 convert: CHAR . ZMIENNA EQUAL CHARVAL SEMICOLON
 
-    NUMBER   shift, and go to state 5
-    ZMIENNA  shift, and go to state 6
+    ZMIENNA  shift, and go to state 9
 
 
 State 4
+
+    4 convert: STRING . ZMIENNA EQUAL STRINGVAL SEMICOLON
+
+    ZMIENNA  shift, and go to state 10
+
+
+State 5
+
+    5 convert: ZMIENNA . EQUAL NUMBERINT
+    6        | ZMIENNA . EQUAL NUMBER
+    7        | ZMIENNA . EQUAL CHARVAL
+    8        | ZMIENNA . EQUAL STRINGVAL
+
+    EQUAL  shift, and go to state 11
+
+
+State 6
+
+    0 $accept: convert . $end
+
+    $end  shift, and go to state 12
+
+
+State 7
+
+    1 convert: INT ZMIENNA . EQUAL NUMBERINT SEMICOLON
+
+    EQUAL  shift, and go to state 13
+
+
+State 8
+
+    2 convert: DOUBLE ZMIENNA . EQUAL NUMBER SEMICOLON
+
+    EQUAL  shift, and go to state 14
+
+
+State 9
+
+    3 convert: CHAR ZMIENNA . EQUAL CHARVAL SEMICOLON
+
+    EQUAL  shift, and go to state 15
+
+
+State 10
+
+    4 convert: STRING ZMIENNA . EQUAL STRINGVAL SEMICOLON
+
+    EQUAL  shift, and go to state 16
+
+
+State 11
+
+    5 convert: ZMIENNA EQUAL . NUMBERINT
+    6        | ZMIENNA EQUAL . NUMBER
+    7        | ZMIENNA EQUAL . CHARVAL
+    8        | ZMIENNA EQUAL . STRINGVAL
+
+    NUMBER     shift, and go to state 17
+    NUMBERINT  shift, and go to state 18
+    CHARVAL    shift, and go to state 19
+    STRINGVAL  shift, and go to state 20
+
+
+State 12
 
     0 $accept: convert $end .
 
     $default  accept
 
 
-State 5
+State 13
 
-    2 convert: ZMIENNA EQUAL NUMBER .
+    1 convert: INT ZMIENNA EQUAL . NUMBERINT SEMICOLON
+
+    NUMBERINT  shift, and go to state 21
+
+
+State 14
+
+    2 convert: DOUBLE ZMIENNA EQUAL . NUMBER SEMICOLON
+
+    NUMBER  shift, and go to state 22
+
+
+State 15
+
+    3 convert: CHAR ZMIENNA EQUAL . CHARVAL SEMICOLON
+
+    CHARVAL  shift, and go to state 23
+
+
+State 16
+
+    4 convert: STRING ZMIENNA EQUAL . STRINGVAL SEMICOLON
+
+    STRINGVAL  shift, and go to state 24
+
+
+State 17
+
+    6 convert: ZMIENNA EQUAL NUMBER .
+
+    $default  reduce using rule 6 (convert)
+
+
+State 18
+
+    5 convert: ZMIENNA EQUAL NUMBERINT .
+
+    $default  reduce using rule 5 (convert)
+
+
+State 19
+
+    7 convert: ZMIENNA EQUAL CHARVAL .
+
+    $default  reduce using rule 7 (convert)
+
+
+State 20
+
+    8 convert: ZMIENNA EQUAL STRINGVAL .
+
+    $default  reduce using rule 8 (convert)
+
+
+State 21
+
+    1 convert: INT ZMIENNA EQUAL NUMBERINT . SEMICOLON
+
+    SEMICOLON  shift, and go to state 25
+
+
+State 22
+
+    2 convert: DOUBLE ZMIENNA EQUAL NUMBER . SEMICOLON
+
+    SEMICOLON  shift, and go to state 26
+
+
+State 23
+
+    3 convert: CHAR ZMIENNA EQUAL CHARVAL . SEMICOLON
+
+    SEMICOLON  shift, and go to state 27
+
+
+State 24
+
+    4 convert: STRING ZMIENNA EQUAL STRINGVAL . SEMICOLON
+
+    SEMICOLON  shift, and go to state 28
+
+
+State 25
+
+    1 convert: INT ZMIENNA EQUAL NUMBERINT SEMICOLON .
+
+    $default  reduce using rule 1 (convert)
+
+
+State 26
+
+    2 convert: DOUBLE ZMIENNA EQUAL NUMBER SEMICOLON .
 
     $default  reduce using rule 2 (convert)
 
 
-State 6
+State 27
 
-    1 convert: ZMIENNA EQUAL ZMIENNA .
+    3 convert: CHAR ZMIENNA EQUAL CHARVAL SEMICOLON .
 
-    $default  reduce using rule 1 (convert)
+    $default  reduce using rule 3 (convert)
+
+
+State 28
+
+    4 convert: STRING ZMIENNA EQUAL STRINGVAL SEMICOLON .
+
+    $default  reduce using rule 4 (convert)

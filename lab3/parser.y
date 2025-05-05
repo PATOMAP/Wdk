@@ -15,10 +15,10 @@
 
 %verbose 
 
-%token PLUS TIMES NUMBER EQUAL SUBSTRACT DIVIDE POWER
+%token PLUS TIMES NUMBER EQUAL SUBSTRACT DIVIDE POWER SQRT
 %left SUBSTRACT PLUS	
 %left DIVIDE TIMES
-%left POWER
+%left POWER SQRT
 %%
 
 total      : expression EQUAL                {  std::cout <<  $1 << std::endl;   }
@@ -27,7 +27,8 @@ total      : expression EQUAL                {  std::cout <<  $1 << std::endl;  
 expression : expression PLUS  expression      {  $$ = $1 + $3;   }
            | expression TIMES  expression     {  $$ = $1 * $3;   } 
            | expression SUBSTRACT expression  {  $$ = $1 - $3;   } 
-           | expression POWER expression      {  $$ = pow($1,$3);   } 
+           | expression POWER expression      {  $$ = pow($1,$3);} 
+           | SQRT expression                  {  $$ = sqrt($2);  } 
            | expression DIVIDE expression     
            {  
             if($2!=0)

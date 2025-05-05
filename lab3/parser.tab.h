@@ -55,7 +55,8 @@ extern int yydebug;
     EQUAL = 261,
     SUBSTRACT = 262,
     DIVIDE = 263,
-    POWER = 264
+    POWER = 264,
+    SQRT = 265
   };
 #endif
 

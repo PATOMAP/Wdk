@@ -1,3 +1,18 @@
+Nonterminals useless in grammar
+
+    convert
+
+
+Terminals unused in grammar
+
+    ZMIENNA
+
+
+Rules useless in grammar
+
+   10 convert: ZMIENNA EQUAL ZMIENNA
+
+
 Grammar
 
     0 $accept: total $end
@@ -27,16 +42,17 @@ Terminals, with rules where they appear
     SIN (264) 6
     COS (265) 7
     NUMBER <dtype> (266) 9
+    ZMIENNA <x> (267)
 
 
 Nonterminals, with rules where they appear
 
-    $accept (12)
+    $accept (13)
         on left: 0
-    total <dtype> (13)
+    total <dtype> (14)
         on left: 1
         on right: 0
-    expression <dtype> (14)
+    expression <dtype> (15)
         on left: 2 3 4 5 6 7 8 9
         on right: 1 2 3 4 5 6 7 8
 

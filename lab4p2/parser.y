@@ -19,18 +19,21 @@
 double dtype;
 int itype;
 std::string *x;
+char c;
+
 }
 
 
 %verbose 
 
 
-%token PLUS TIMES EQUAL SUBSTRACT  DIVIDE POWER SIN COS 
+%token PLUS TIMES EQUAL SUBSTRACT  DIVIDE POWER SIN COS INT SEMICOLON INT DOUBLE CHAR STRING
 %token<dtype> NUMBER 
 %token<itype> NUMBERINT
 %type<x> convert
 %token<x> ZMIENNA
-
+%token<c> CHARVAL
+%token<x> STRINGVAL 
 %left SUBSTRACT PLUS	
 %left DIVIDE TIMES
 %left POWER
@@ -38,13 +41,19 @@ std::string *x;
 
 %%
 
-            convert : ZMIENNA EQUAL ZMIENNA  {std::cout << " to string" << std::endl;  }
-            |  ZMIENNA EQUAL NUMBER {std::cout << " to liczba" << std::endl;  }
-            |  ZMIENNA EQUAL NUMBERINT {
-                $$ = "int "+$1+" "+$2+" "+$3;
-                std::cout << zm << std::endl;  
-                }
-            ;
+convert:
+    // C to Python
+      INT ZMIENNA EQUAL NUMBERINT SEMICOLON    { std::cout << *$2 << " = " << $4 << std::endl; }
+    | DOUBLE ZMIENNA EQUAL NUMBER SEMICOLON    { std::cout << *$2 << " = " << $4 << std::endl; }
+    | CHAR ZMIENNA EQUAL CHARVAL SEMICOLON     { std::cout << *$2 << " = '" << $4 << "'" << std::endl; }
+    | STRING ZMIENNA EQUAL STRINGVAL SEMICOLON { std::cout << *$2 << " = " << *$4 << std::endl; }
+
+    // Python to C
+    | ZMIENNA EQUAL NUMBERINT                  { std::cout << "int " << *$1 << " = " << $3 << ";" << std::endl; }
+    | ZMIENNA EQUAL NUMBER                     { std::cout << "double " << *$1 << " = " << $3 << ";" << std::endl; }
+    | ZMIENNA EQUAL CHARVAL                    { std::cout << "char " << *$1 << " = '" << $3 << "';" << std::endl; }
+    | ZMIENNA EQUAL STRINGVAL                  { std::cout << "string " << *$1 << " = " << *$3 << ";" << std::endl; }
+;
 
 	
 %%

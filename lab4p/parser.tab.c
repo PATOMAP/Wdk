@@ -138,7 +138,8 @@ extern int yydebug;
     POWER = 263,
     SIN = 264,
     COS = 265,
-    NUMBER = 266
+    NUMBER = 266,
+    ZMIENNA = 267
   };
 #endif
 
@@ -149,9 +150,9 @@ union YYSTYPE
 #line 18 "parser.y"
 
 double dtype;
-char ctype;
+std::string *x;
 
-#line 155 "parser.tab.c"
+#line 156 "parser.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -473,7 +474,7 @@ union yyalloc
 #define YYLAST   23
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  12
+#define YYNTOKENS  13
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  3
 /* YYNRULES -- Number of rules.  */
@@ -482,7 +483,7 @@ union yyalloc
 #define YYNSTATES  20
 
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   266
+#define YYMAXUTOK   267
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -520,15 +521,15 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10,    11
+       5,     6,     7,     8,     9,    10,    11,    12
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    39,    39,    42,    43,    44,    45,    46,    47,    48,
-      61
+       0,    40,    40,    43,    44,    45,    46,    47,    48,    49,
+      62
 };
 #endif
 
@@ -538,7 +539,7 @@ static const yytype_int8 yyrline[] =
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "PLUS", "TIMES", "EQUAL", "SUBSTRACT",
-  "DIVIDE", "POWER", "SIN", "COS", "NUMBER", "$accept", "total",
+  "DIVIDE", "POWER", "SIN", "COS", "NUMBER", "ZMIENNA", "$accept", "total",
   "expression", YY_NULLPTR
 };
 #endif
@@ -549,7 +550,7 @@ static const char *const yytname[] =
 static const yytype_int16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265,   266
+     265,   266,   267
 };
 # endif
 
@@ -613,15 +614,15 @@ static const yytype_int8 yycheck[] =
      symbol of state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     9,    10,    11,    13,    14,    14,    14,     0,     3,
-       4,     5,     6,     7,     8,    14,    14,    14,    14,    14
+       0,     9,    10,    11,    14,    15,    15,    15,     0,     3,
+       4,     5,     6,     7,     8,    15,    15,    15,    15,    15
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    12,    13,    14,    14,    14,    14,    14,    14,    14,
-      14
+       0,    13,    14,    15,    15,    15,    15,    15,    15,    15,
+      15
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
@@ -1324,49 +1325,49 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 39 "parser.y"
+#line 40 "parser.y"
                                              {  std::cout <<  (yyvsp[-1].dtype) << std::endl;   }
-#line 1330 "parser.tab.c"
+#line 1331 "parser.tab.c"
     break;
 
   case 3:
-#line 42 "parser.y"
+#line 43 "parser.y"
                                               {  (yyval.dtype) =  (yyvsp[-2].dtype) + (yyvsp[0].dtype);   }
-#line 1336 "parser.tab.c"
+#line 1337 "parser.tab.c"
     break;
 
   case 4:
-#line 43 "parser.y"
+#line 44 "parser.y"
                                               {  (yyval.dtype) = (yyvsp[-2].dtype) * (yyvsp[0].dtype);   }
-#line 1342 "parser.tab.c"
+#line 1343 "parser.tab.c"
     break;
 
   case 5:
-#line 44 "parser.y"
+#line 45 "parser.y"
                                               {  (yyval.dtype) = (yyvsp[-2].dtype) - (yyvsp[0].dtype);   }
-#line 1348 "parser.tab.c"
+#line 1349 "parser.tab.c"
     break;
 
   case 6:
-#line 45 "parser.y"
+#line 46 "parser.y"
                                               {  (yyval.dtype) = pow((yyvsp[-2].dtype),(yyvsp[0].dtype));   }
-#line 1354 "parser.tab.c"
+#line 1355 "parser.tab.c"
     break;
 
   case 7:
-#line 46 "parser.y"
+#line 47 "parser.y"
                                  {  (yyval.dtype) = sin((yyvsp[0].dtype)*M_PI*2/180);   }
-#line 1360 "parser.tab.c"
+#line 1361 "parser.tab.c"
     break;
 
   case 8:
-#line 47 "parser.y"
+#line 48 "parser.y"
                                  {  (yyval.dtype) = cos((yyvsp[0].dtype)*M_PI*2/180);   }
-#line 1366 "parser.tab.c"
+#line 1367 "parser.tab.c"
     break;
 
   case 9:
-#line 49 "parser.y"
+#line 50 "parser.y"
            {  
             if((yyvsp[0].dtype)!=0)
             {
@@ -1379,17 +1380,17 @@ yyreduce:
             }
  
             }
-#line 1383 "parser.tab.c"
+#line 1384 "parser.tab.c"
     break;
 
   case 10:
-#line 61 "parser.y"
+#line 62 "parser.y"
                                              {  (yyval.dtype) = (yyvsp[0].dtype);   }
-#line 1389 "parser.tab.c"
+#line 1390 "parser.tab.c"
     break;
 
 
-#line 1393 "parser.tab.c"
+#line 1394 "parser.tab.c"
 
       default: break;
     }
@@ -1621,7 +1622,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 64 "parser.y"
+#line 72 "parser.y"
 
 
 void yyerror(char *s) 

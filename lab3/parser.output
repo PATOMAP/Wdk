@@ -8,8 +8,9 @@ Grammar
     3           | expression TIMES expression
     4           | expression SUBSTRACT expression
     5           | expression POWER expression
-    6           | expression DIVIDE expression
-    7           | NUMBER
+    6           | SQRT expression
+    7           | expression DIVIDE expression
+    8           | NUMBER
 
 
 Terminals, with rules where they appear
@@ -18,23 +19,24 @@ Terminals, with rules where they appear
     error (256)
     PLUS (258) 2
     TIMES (259) 3
-    NUMBER (260) 7
+    NUMBER (260) 8
     EQUAL (261) 1
     SUBSTRACT (262) 4
-    DIVIDE (263) 6
+    DIVIDE (263) 7
     POWER (264) 5
+    SQRT (265) 6
 
 
 Nonterminals, with rules where they appear
 
-    $accept (10)
+    $accept (11)
         on left: 0
-    total (11)
+    total (12)
         on left: 1
         on right: 0
-    expression (12)
-        on left: 2 3 4 5 6 7
-        on right: 1 2 3 4 5 6
+    expression (13)
+        on left: 2 3 4 5 6 7 8
+        on right: 1 2 3 4 5 6 7
 
 
 State 0
@@ -42,159 +44,157 @@ State 0
     0 $accept: . total $end
 
     NUMBER  shift, and go to state 1
+    SQRT    shift, and go to state 2
 
-    total       go to state 2
-    expression  go to state 3
+    total       go to state 3
+    expression  go to state 4
 
 
 State 1
 
-    7 expression: NUMBER .
+    8 expression: NUMBER .
 
-    $default  reduce using rule 7 (expression)
+    $default  reduce using rule 8 (expression)
 
 
 State 2
 
-    0 $accept: total . $end
+    6 expression: SQRT . expression
 
-    $end  shift, and go to state 4
+    NUMBER  shift, and go to state 1
+    SQRT    shift, and go to state 2
+
+    expression  go to state 5
 
 
 State 3
+
+    0 $accept: total . $end
+
+    $end  shift, and go to state 6
+
+
+State 4
 
     1 total: expression . EQUAL
     2 expression: expression . PLUS expression
     3           | expression . TIMES expression
     4           | expression . SUBSTRACT expression
     5           | expression . POWER expression
-    6           | expression . DIVIDE expression
+    7           | expression . DIVIDE expression
 
-    PLUS       shift, and go to state 5
-    TIMES      shift, and go to state 6
-    EQUAL      shift, and go to state 7
-    SUBSTRACT  shift, and go to state 8
-    DIVIDE     shift, and go to state 9
-    POWER      shift, and go to state 10
+    PLUS       shift, and go to state 7
+    TIMES      shift, and go to state 8
+    EQUAL      shift, and go to state 9
+    SUBSTRACT  shift, and go to state 10
+    DIVIDE     shift, and go to state 11
+    POWER      shift, and go to state 12
 
 
-State 4
+State 5
+
+    2 expression: expression . PLUS expression
+    3           | expression . TIMES expression
+    4           | expression . SUBSTRACT expression
+    5           | expression . POWER expression
+    6           | SQRT expression .
+    7           | expression . DIVIDE expression
+
+    $default  reduce using rule 6 (expression)
+
+
+State 6
 
     0 $accept: total $end .
 
     $default  accept
 
 
-State 5
+State 7
 
     2 expression: expression PLUS . expression
 
     NUMBER  shift, and go to state 1
+    SQRT    shift, and go to state 2
 
-    expression  go to state 11
+    expression  go to state 13
 
 
-State 6
+State 8
 
     3 expression: expression TIMES . expression
 
     NUMBER  shift, and go to state 1
+    SQRT    shift, and go to state 2
 
-    expression  go to state 12
+    expression  go to state 14
 
 
-State 7
+State 9
 
     1 total: expression EQUAL .
 
     $default  reduce using rule 1 (total)
 
 
-State 8
+State 10
 
     4 expression: expression SUBSTRACT . expression
 
     NUMBER  shift, and go to state 1
-
-    expression  go to state 13
-
-
-State 9
-
-    6 expression: expression DIVIDE . expression
-
-    NUMBER  shift, and go to state 1
-
-    expression  go to state 14
-
-
-State 10
-
-    5 expression: expression POWER . expression
-
-    NUMBER  shift, and go to state 1
+    SQRT    shift, and go to state 2
 
     expression  go to state 15
 
 
 State 11
 
-    2 expression: expression . PLUS expression
-    2           | expression PLUS expression .
-    3           | expression . TIMES expression
-    4           | expression . SUBSTRACT expression
-    5           | expression . POWER expression
-    6           | expression . DIVIDE expression
+    7 expression: expression DIVIDE . expression
 
-    TIMES   shift, and go to state 6
-    DIVIDE  shift, and go to state 9
-    POWER   shift, and go to state 10
+    NUMBER  shift, and go to state 1
+    SQRT    shift, and go to state 2
 
-    $default  reduce using rule 2 (expression)
+    expression  go to state 16
 
 
 State 12
 
-    2 expression: expression . PLUS expression
-    3           | expression . TIMES expression
-    3           | expression TIMES expression .
-    4           | expression . SUBSTRACT expression
-    5           | expression . POWER expression
-    6           | expression . DIVIDE expression
+    5 expression: expression POWER . expression
 
-    POWER  shift, and go to state 10
+    NUMBER  shift, and go to state 1
+    SQRT    shift, and go to state 2
 
-    $default  reduce using rule 3 (expression)
+    expression  go to state 17
 
 
 State 13
 
     2 expression: expression . PLUS expression
+    2           | expression PLUS expression .
     3           | expression . TIMES expression
     4           | expression . SUBSTRACT expression
-    4           | expression SUBSTRACT expression .
     5           | expression . POWER expression
-    6           | expression . DIVIDE expression
+    7           | expression . DIVIDE expression
 
-    TIMES   shift, and go to state 6
-    DIVIDE  shift, and go to state 9
-    POWER   shift, and go to state 10
+    TIMES   shift, and go to state 8
+    DIVIDE  shift, and go to state 11
+    POWER   shift, and go to state 12
 
-    $default  reduce using rule 4 (expression)
+    $default  reduce using rule 2 (expression)
 
 
 State 14
 
     2 expression: expression . PLUS expression
     3           | expression . TIMES expression
+    3           | expression TIMES expression .
     4           | expression . SUBSTRACT expression
     5           | expression . POWER expression
-    6           | expression . DIVIDE expression
-    6           | expression DIVIDE expression .
+    7           | expression . DIVIDE expression
 
-    POWER  shift, and go to state 10
+    POWER  shift, and go to state 12
 
-    $default  reduce using rule 6 (expression)
+    $default  reduce using rule 3 (expression)
 
 
 State 15
@@ -202,8 +202,38 @@ State 15
     2 expression: expression . PLUS expression
     3           | expression . TIMES expression
     4           | expression . SUBSTRACT expression
+    4           | expression SUBSTRACT expression .
+    5           | expression . POWER expression
+    7           | expression . DIVIDE expression
+
+    TIMES   shift, and go to state 8
+    DIVIDE  shift, and go to state 11
+    POWER   shift, and go to state 12
+
+    $default  reduce using rule 4 (expression)
+
+
+State 16
+
+    2 expression: expression . PLUS expression
+    3           | expression . TIMES expression
+    4           | expression . SUBSTRACT expression
+    5           | expression . POWER expression
+    7           | expression . DIVIDE expression
+    7           | expression DIVIDE expression .
+
+    POWER  shift, and go to state 12
+
+    $default  reduce using rule 7 (expression)
+
+
+State 17
+
+    2 expression: expression . PLUS expression
+    3           | expression . TIMES expression
+    4           | expression . SUBSTRACT expression
     5           | expression . POWER expression
     5           | expression POWER expression .
-    6           | expression . DIVIDE expression
+    7           | expression . DIVIDE expression
 
     $default  reduce using rule 5 (expression)
