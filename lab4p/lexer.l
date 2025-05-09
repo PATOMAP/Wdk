@@ -21,6 +21,8 @@
 "pow"          return POWER;
 "sin"            return SIN;  
 "cos"            return COS;
+"("    { return LPAREN; }
+")"    { return RPAREN; }
 [a-zA-Z0-9]+      { yylval.x = new std::string(yytext); return ZMIENNA; }   
 .              /* remove other characters */
             

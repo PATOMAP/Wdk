@@ -57,8 +57,10 @@ extern int yydebug;
     POWER = 263,
     SIN = 264,
     COS = 265,
-    NUMBER = 266,
-    ZMIENNA = 267
+    LPAREN = 266,
+    RPAREN = 267,
+    NUMBER = 268,
+    ZMIENNA = 269
   };
 #endif
 
@@ -71,7 +73,7 @@ union YYSTYPE
 double dtype;
 std::string *x;
 
-#line 75 "parser.tab.h"
+#line 77 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

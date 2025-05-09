@@ -24,7 +24,7 @@ std::string *x;
 %verbose 
 
 
-%token PLUS TIMES EQUAL SUBSTRACT  DIVIDE POWER SIN COS 
+%token PLUS TIMES EQUAL SUBSTRACT  DIVIDE POWER SIN COS LPAREN RPAREN
 %token<dtype> NUMBER
 %type<dtype> total expression
 %type<x> convert
@@ -44,8 +44,9 @@ expression : expression PLUS  expression      {  $$ =  $1 + $3;   }
            | expression TIMES  expression     {  $$ = $1 * $3;   } 
            | expression SUBSTRACT expression  {  $$ = $1 - $3;   } 
            | expression POWER expression      {  $$ = pow($1,$3);   } 
-           | SIN expression      {  $$ = sin($2*M_PI*2/180);   } 
-           | COS expression      {  $$ = cos($2*M_PI*2/180);   } 
+           | SIN expression      {  $$ = sin($2*M_PI/180);   } 
+           | COS expression      {  $$ = cos($2*M_PI/180);   } 
+           | LPAREN expression RPAREN { $$ = $2; }
            | expression DIVIDE expression     
            {  
             if($3!=0)
