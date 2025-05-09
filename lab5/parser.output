@@ -1,0 +1,455 @@
+Terminals unused in grammar
+
+    LBRACKET
+    RBRACKET
+    NUMBER
+    CONSTEXP
+
+
+State 11 conflicts: 3 shift/reduce
+
+
+Grammar
+
+    0 $accept: function_declaration $end
+
+    1 function_declaration: simple_type IDENTIFIER LPAREN parameter_list RPAREN SEMICOLON
+    2                     | simple_type IDENTIFIER LPAREN RPAREN SEMICOLON
+    3                     | IDENTIFIER LPAREN RPAREN COLON simple_type SEMICOLON
+    4                     | complex_type IDENTIFIER LPAREN parameter_list RPAREN SEMICOLON
+
+    5 type: simple_type
+    6     | complex_type
+
+    7 simple_type: INT
+    8            | DOUBLE
+    9            | CHAR
+   10            | VOID
+
+   11 complex_type: CONST type
+   12             | type STAR
+   13             | type REF
+   14             | type RREF
+
+   15 parameter_list: parameter
+   16               | parameter_list COMMA parameter
+
+   17 parameter: type IDENTIFIER
+   18          | type
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    REF (258) 13
+    RREF (259) 14
+    STAR (260) 12
+    LPAREN (261) 1 2 3 4
+    RPAREN (262) 1 2 3 4
+    LBRACKET (263)
+    RBRACKET (264)
+    COMMA (265) 16
+    COLON (266) 3
+    SEMICOLON (267) 1 2 3 4
+    NUMBER (268)
+    INT (269) 7
+    DOUBLE (270) 8
+    CONST (271) 11
+    CHAR (272) 9
+    VOID (273) 10
+    CONSTEXP (274)
+    IDENTIFIER (275) 1 2 3 4 17
+
+
+Nonterminals, with rules where they appear
+
+    $accept (21)
+        on left: 0
+    function_declaration (22)
+        on left: 1 2 3 4
+        on right: 0
+    type (23)
+        on left: 5 6
+        on right: 11 12 13 14 17 18
+    simple_type (24)
+        on left: 7 8 9 10
+        on right: 1 2 3 5
+    complex_type (25)
+        on left: 11 12 13 14
+        on right: 4 6
+    parameter_list (26)
+        on left: 15 16
+        on right: 1 4 16
+    parameter (27)
+        on left: 17 18
+        on right: 15 16
+
+
+State 0
+
+    0 $accept: . function_declaration $end
+
+    INT         shift, and go to state 1
+    DOUBLE      shift, and go to state 2
+    CONST       shift, and go to state 3
+    CHAR        shift, and go to state 4
+    VOID        shift, and go to state 5
+    IDENTIFIER  shift, and go to state 6
+
+    function_declaration  go to state 7
+    type                  go to state 8
+    simple_type           go to state 9
+    complex_type          go to state 10
+
+
+State 1
+
+    7 simple_type: INT .
+
+    $default  reduce using rule 7 (simple_type)
+
+
+State 2
+
+    8 simple_type: DOUBLE .
+
+    $default  reduce using rule 8 (simple_type)
+
+
+State 3
+
+   11 complex_type: CONST . type
+
+    INT     shift, and go to state 1
+    DOUBLE  shift, and go to state 2
+    CONST   shift, and go to state 3
+    CHAR    shift, and go to state 4
+    VOID    shift, and go to state 5
+
+    type          go to state 11
+    simple_type   go to state 12
+    complex_type  go to state 13
+
+
+State 4
+
+    9 simple_type: CHAR .
+
+    $default  reduce using rule 9 (simple_type)
+
+
+State 5
+
+   10 simple_type: VOID .
+
+    $default  reduce using rule 10 (simple_type)
+
+
+State 6
+
+    3 function_declaration: IDENTIFIER . LPAREN RPAREN COLON simple_type SEMICOLON
+
+    LPAREN  shift, and go to state 14
+
+
+State 7
+
+    0 $accept: function_declaration . $end
+
+    $end  shift, and go to state 15
+
+
+State 8
+
+   12 complex_type: type . STAR
+   13             | type . REF
+   14             | type . RREF
+
+    REF   shift, and go to state 16
+    RREF  shift, and go to state 17
+    STAR  shift, and go to state 18
+
+
+State 9
+
+    1 function_declaration: simple_type . IDENTIFIER LPAREN parameter_list RPAREN SEMICOLON
+    2                     | simple_type . IDENTIFIER LPAREN RPAREN SEMICOLON
+    5 type: simple_type .
+
+    IDENTIFIER  shift, and go to state 19
+
+    $default  reduce using rule 5 (type)
+
+
+State 10
+
+    4 function_declaration: complex_type . IDENTIFIER LPAREN parameter_list RPAREN SEMICOLON
+    6 type: complex_type .
+
+    IDENTIFIER  shift, and go to state 20
+
+    $default  reduce using rule 6 (type)
+
+
+State 11
+
+   11 complex_type: CONST type .
+   12             | type . STAR
+   13             | type . REF
+   14             | type . RREF
+
+    REF   shift, and go to state 16
+    RREF  shift, and go to state 17
+    STAR  shift, and go to state 18
+
+    REF       [reduce using rule 11 (complex_type)]
+    RREF      [reduce using rule 11 (complex_type)]
+    STAR      [reduce using rule 11 (complex_type)]
+    $default  reduce using rule 11 (complex_type)
+
+
+State 12
+
+    5 type: simple_type .
+
+    $default  reduce using rule 5 (type)
+
+
+State 13
+
+    6 type: complex_type .
+
+    $default  reduce using rule 6 (type)
+
+
+State 14
+
+    3 function_declaration: IDENTIFIER LPAREN . RPAREN COLON simple_type SEMICOLON
+
+    RPAREN  shift, and go to state 21
+
+
+State 15
+
+    0 $accept: function_declaration $end .
+
+    $default  accept
+
+
+State 16
+
+   13 complex_type: type REF .
+
+    $default  reduce using rule 13 (complex_type)
+
+
+State 17
+
+   14 complex_type: type RREF .
+
+    $default  reduce using rule 14 (complex_type)
+
+
+State 18
+
+   12 complex_type: type STAR .
+
+    $default  reduce using rule 12 (complex_type)
+
+
+State 19
+
+    1 function_declaration: simple_type IDENTIFIER . LPAREN parameter_list RPAREN SEMICOLON
+    2                     | simple_type IDENTIFIER . LPAREN RPAREN SEMICOLON
+
+    LPAREN  shift, and go to state 22
+
+
+State 20
+
+    4 function_declaration: complex_type IDENTIFIER . LPAREN parameter_list RPAREN SEMICOLON
+
+    LPAREN  shift, and go to state 23
+
+
+State 21
+
+    3 function_declaration: IDENTIFIER LPAREN RPAREN . COLON simple_type SEMICOLON
+
+    COLON  shift, and go to state 24
+
+
+State 22
+
+    1 function_declaration: simple_type IDENTIFIER LPAREN . parameter_list RPAREN SEMICOLON
+    2                     | simple_type IDENTIFIER LPAREN . RPAREN SEMICOLON
+
+    RPAREN  shift, and go to state 25
+    INT     shift, and go to state 1
+    DOUBLE  shift, and go to state 2
+    CONST   shift, and go to state 3
+    CHAR    shift, and go to state 4
+    VOID    shift, and go to state 5
+
+    type            go to state 26
+    simple_type     go to state 12
+    complex_type    go to state 13
+    parameter_list  go to state 27
+    parameter       go to state 28
+
+
+State 23
+
+    4 function_declaration: complex_type IDENTIFIER LPAREN . parameter_list RPAREN SEMICOLON
+
+    INT     shift, and go to state 1
+    DOUBLE  shift, and go to state 2
+    CONST   shift, and go to state 3
+    CHAR    shift, and go to state 4
+    VOID    shift, and go to state 5
+
+    type            go to state 26
+    simple_type     go to state 12
+    complex_type    go to state 13
+    parameter_list  go to state 29
+    parameter       go to state 28
+
+
+State 24
+
+    3 function_declaration: IDENTIFIER LPAREN RPAREN COLON . simple_type SEMICOLON
+
+    INT     shift, and go to state 1
+    DOUBLE  shift, and go to state 2
+    CHAR    shift, and go to state 4
+    VOID    shift, and go to state 5
+
+    simple_type  go to state 30
+
+
+State 25
+
+    2 function_declaration: simple_type IDENTIFIER LPAREN RPAREN . SEMICOLON
+
+    SEMICOLON  shift, and go to state 31
+
+
+State 26
+
+   12 complex_type: type . STAR
+   13             | type . REF
+   14             | type . RREF
+   17 parameter: type . IDENTIFIER
+   18          | type .
+
+    REF         shift, and go to state 16
+    RREF        shift, and go to state 17
+    STAR        shift, and go to state 18
+    IDENTIFIER  shift, and go to state 32
+
+    $default  reduce using rule 18 (parameter)
+
+
+State 27
+
+    1 function_declaration: simple_type IDENTIFIER LPAREN parameter_list . RPAREN SEMICOLON
+   16 parameter_list: parameter_list . COMMA parameter
+
+    RPAREN  shift, and go to state 33
+    COMMA   shift, and go to state 34
+
+
+State 28
+
+   15 parameter_list: parameter .
+
+    $default  reduce using rule 15 (parameter_list)
+
+
+State 29
+
+    4 function_declaration: complex_type IDENTIFIER LPAREN parameter_list . RPAREN SEMICOLON
+   16 parameter_list: parameter_list . COMMA parameter
+
+    RPAREN  shift, and go to state 35
+    COMMA   shift, and go to state 34
+
+
+State 30
+
+    3 function_declaration: IDENTIFIER LPAREN RPAREN COLON simple_type . SEMICOLON
+
+    SEMICOLON  shift, and go to state 36
+
+
+State 31
+
+    2 function_declaration: simple_type IDENTIFIER LPAREN RPAREN SEMICOLON .
+
+    $default  reduce using rule 2 (function_declaration)
+
+
+State 32
+
+   17 parameter: type IDENTIFIER .
+
+    $default  reduce using rule 17 (parameter)
+
+
+State 33
+
+    1 function_declaration: simple_type IDENTIFIER LPAREN parameter_list RPAREN . SEMICOLON
+
+    SEMICOLON  shift, and go to state 37
+
+
+State 34
+
+   16 parameter_list: parameter_list COMMA . parameter
+
+    INT     shift, and go to state 1
+    DOUBLE  shift, and go to state 2
+    CONST   shift, and go to state 3
+    CHAR    shift, and go to state 4
+    VOID    shift, and go to state 5
+
+    type          go to state 26
+    simple_type   go to state 12
+    complex_type  go to state 13
+    parameter     go to state 38
+
+
+State 35
+
+    4 function_declaration: complex_type IDENTIFIER LPAREN parameter_list RPAREN . SEMICOLON
+
+    SEMICOLON  shift, and go to state 39
+
+
+State 36
+
+    3 function_declaration: IDENTIFIER LPAREN RPAREN COLON simple_type SEMICOLON .
+
+    $default  reduce using rule 3 (function_declaration)
+
+
+State 37
+
+    1 function_declaration: simple_type IDENTIFIER LPAREN parameter_list RPAREN SEMICOLON .
+
+    $default  reduce using rule 1 (function_declaration)
+
+
+State 38
+
+   16 parameter_list: parameter_list COMMA parameter .
+
+    $default  reduce using rule 16 (parameter_list)
+
+
+State 39
+
+    4 function_declaration: complex_type IDENTIFIER LPAREN parameter_list RPAREN SEMICOLON .
+
+    $default  reduce using rule 4 (function_declaration)
