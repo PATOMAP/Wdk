@@ -49,29 +49,43 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    REF = 258,
-    STAR = 259,
-    LPAREN = 260,
-    RPAREN = 261,
-    LBRACKET = 262,
-    RBRACKET = 263,
-    COMMA = 264,
-    COLON = 265,
-    SEMICOLON = 266,
-    NUMBER = 267,
-    INT = 268,
-    DOUBLE = 269,
-    CONST = 270,
-    CHAR = 271,
-    VOID = 272,
-    CONSTEXP = 273,
-    IDENTIFIER = 274
+    PLUS = 258,
+    TIMES = 259,
+    EQUAL = 260,
+    SUBSTRACT = 261,
+    DIVIDE = 262,
+    POWER = 263,
+    SIN = 264,
+    COS = 265,
+    INT = 266,
+    SEMICOLON = 267,
+    DOUBLE = 268,
+    CHAR = 269,
+    STRING = 270,
+    LPAREN = 271,
+    RPAREN = 272,
+    NUMBER = 273,
+    ZMIENNA = 274,
+    CHARVAL = 275,
+    STRINGVAL = 276
   };
 #endif
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+union YYSTYPE
+{
+#line 18 "parser.y"
+
+    double dtype;
+    std::string *x;
+    char c;  // dla CHARVAL
+
+
+#line 86 "parser.tab.h"
+
+};
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif

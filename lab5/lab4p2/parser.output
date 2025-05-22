@@ -1,0 +1,656 @@
+Grammar
+
+    0 $accept: convert $end
+
+    1 convert: INT ZMIENNA EQUAL expression SEMICOLON
+    2        | DOUBLE ZMIENNA EQUAL expression SEMICOLON
+    3        | CHAR ZMIENNA EQUAL CHARVAL SEMICOLON
+    4        | STRING ZMIENNA EQUAL STRINGVAL SEMICOLON
+    5        | INT TIMES ZMIENNA EQUAL expression SEMICOLON
+    6        | DOUBLE TIMES ZMIENNA EQUAL expression SEMICOLON
+    7        | CHAR TIMES ZMIENNA EQUAL CHARVAL SEMICOLON
+    8        | STRING TIMES ZMIENNA EQUAL STRINGVAL SEMICOLON
+
+    9 expression: expression PLUS expression
+   10           | expression TIMES expression
+   11           | expression SUBSTRACT expression
+   12           | expression POWER expression
+   13           | SIN expression
+   14           | COS expression
+   15           | LPAREN expression RPAREN
+   16           | expression DIVIDE expression
+   17           | NUMBER
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    PLUS (258) 9
+    TIMES (259) 5 6 7 8 10
+    EQUAL (260) 1 2 3 4 5 6 7 8
+    SUBSTRACT (261) 11
+    DIVIDE (262) 16
+    POWER (263) 12
+    SIN (264) 13
+    COS (265) 14
+    INT (266) 1 5
+    SEMICOLON (267) 1 2 3 4 5 6 7 8
+    DOUBLE (268) 2 6
+    CHAR (269) 3 7
+    STRING (270) 4 8
+    LPAREN (271) 15
+    RPAREN (272) 15
+    NUMBER <dtype> (273) 17
+    ZMIENNA <x> (274) 1 2 3 4 5 6 7 8
+    CHARVAL <c> (275) 3 7
+    STRINGVAL <x> (276) 4 8
+
+
+Nonterminals, with rules where they appear
+
+    $accept (22)
+        on left: 0
+    convert <x> (23)
+        on left: 1 2 3 4 5 6 7 8
+        on right: 0
+    expression <dtype> (24)
+        on left: 9 10 11 12 13 14 15 16 17
+        on right: 1 2 5 6 9 10 11 12 13 14 15 16
+
+
+State 0
+
+    0 $accept: . convert $end
+
+    INT     shift, and go to state 1
+    DOUBLE  shift, and go to state 2
+    CHAR    shift, and go to state 3
+    STRING  shift, and go to state 4
+
+    convert  go to state 5
+
+
+State 1
+
+    1 convert: INT . ZMIENNA EQUAL expression SEMICOLON
+    5        | INT . TIMES ZMIENNA EQUAL expression SEMICOLON
+
+    TIMES    shift, and go to state 6
+    ZMIENNA  shift, and go to state 7
+
+
+State 2
+
+    2 convert: DOUBLE . ZMIENNA EQUAL expression SEMICOLON
+    6        | DOUBLE . TIMES ZMIENNA EQUAL expression SEMICOLON
+
+    TIMES    shift, and go to state 8
+    ZMIENNA  shift, and go to state 9
+
+
+State 3
+
+    3 convert: CHAR . ZMIENNA EQUAL CHARVAL SEMICOLON
+    7        | CHAR . TIMES ZMIENNA EQUAL CHARVAL SEMICOLON
+
+    TIMES    shift, and go to state 10
+    ZMIENNA  shift, and go to state 11
+
+
+State 4
+
+    4 convert: STRING . ZMIENNA EQUAL STRINGVAL SEMICOLON
+    8        | STRING . TIMES ZMIENNA EQUAL STRINGVAL SEMICOLON
+
+    TIMES    shift, and go to state 12
+    ZMIENNA  shift, and go to state 13
+
+
+State 5
+
+    0 $accept: convert . $end
+
+    $end  shift, and go to state 14
+
+
+State 6
+
+    5 convert: INT TIMES . ZMIENNA EQUAL expression SEMICOLON
+
+    ZMIENNA  shift, and go to state 15
+
+
+State 7
+
+    1 convert: INT ZMIENNA . EQUAL expression SEMICOLON
+
+    EQUAL  shift, and go to state 16
+
+
+State 8
+
+    6 convert: DOUBLE TIMES . ZMIENNA EQUAL expression SEMICOLON
+
+    ZMIENNA  shift, and go to state 17
+
+
+State 9
+
+    2 convert: DOUBLE ZMIENNA . EQUAL expression SEMICOLON
+
+    EQUAL  shift, and go to state 18
+
+
+State 10
+
+    7 convert: CHAR TIMES . ZMIENNA EQUAL CHARVAL SEMICOLON
+
+    ZMIENNA  shift, and go to state 19
+
+
+State 11
+
+    3 convert: CHAR ZMIENNA . EQUAL CHARVAL SEMICOLON
+
+    EQUAL  shift, and go to state 20
+
+
+State 12
+
+    8 convert: STRING TIMES . ZMIENNA EQUAL STRINGVAL SEMICOLON
+
+    ZMIENNA  shift, and go to state 21
+
+
+State 13
+
+    4 convert: STRING ZMIENNA . EQUAL STRINGVAL SEMICOLON
+
+    EQUAL  shift, and go to state 22
+
+
+State 14
+
+    0 $accept: convert $end .
+
+    $default  accept
+
+
+State 15
+
+    5 convert: INT TIMES ZMIENNA . EQUAL expression SEMICOLON
+
+    EQUAL  shift, and go to state 23
+
+
+State 16
+
+    1 convert: INT ZMIENNA EQUAL . expression SEMICOLON
+
+    SIN     shift, and go to state 24
+    COS     shift, and go to state 25
+    LPAREN  shift, and go to state 26
+    NUMBER  shift, and go to state 27
+
+    expression  go to state 28
+
+
+State 17
+
+    6 convert: DOUBLE TIMES ZMIENNA . EQUAL expression SEMICOLON
+
+    EQUAL  shift, and go to state 29
+
+
+State 18
+
+    2 convert: DOUBLE ZMIENNA EQUAL . expression SEMICOLON
+
+    SIN     shift, and go to state 24
+    COS     shift, and go to state 25
+    LPAREN  shift, and go to state 26
+    NUMBER  shift, and go to state 27
+
+    expression  go to state 30
+
+
+State 19
+
+    7 convert: CHAR TIMES ZMIENNA . EQUAL CHARVAL SEMICOLON
+
+    EQUAL  shift, and go to state 31
+
+
+State 20
+
+    3 convert: CHAR ZMIENNA EQUAL . CHARVAL SEMICOLON
+
+    CHARVAL  shift, and go to state 32
+
+
+State 21
+
+    8 convert: STRING TIMES ZMIENNA . EQUAL STRINGVAL SEMICOLON
+
+    EQUAL  shift, and go to state 33
+
+
+State 22
+
+    4 convert: STRING ZMIENNA EQUAL . STRINGVAL SEMICOLON
+
+    STRINGVAL  shift, and go to state 34
+
+
+State 23
+
+    5 convert: INT TIMES ZMIENNA EQUAL . expression SEMICOLON
+
+    SIN     shift, and go to state 24
+    COS     shift, and go to state 25
+    LPAREN  shift, and go to state 26
+    NUMBER  shift, and go to state 27
+
+    expression  go to state 35
+
+
+State 24
+
+   13 expression: SIN . expression
+
+    SIN     shift, and go to state 24
+    COS     shift, and go to state 25
+    LPAREN  shift, and go to state 26
+    NUMBER  shift, and go to state 27
+
+    expression  go to state 36
+
+
+State 25
+
+   14 expression: COS . expression
+
+    SIN     shift, and go to state 24
+    COS     shift, and go to state 25
+    LPAREN  shift, and go to state 26
+    NUMBER  shift, and go to state 27
+
+    expression  go to state 37
+
+
+State 26
+
+   15 expression: LPAREN . expression RPAREN
+
+    SIN     shift, and go to state 24
+    COS     shift, and go to state 25
+    LPAREN  shift, and go to state 26
+    NUMBER  shift, and go to state 27
+
+    expression  go to state 38
+
+
+State 27
+
+   17 expression: NUMBER .
+
+    $default  reduce using rule 17 (expression)
+
+
+State 28
+
+    1 convert: INT ZMIENNA EQUAL expression . SEMICOLON
+    9 expression: expression . PLUS expression
+   10           | expression . TIMES expression
+   11           | expression . SUBSTRACT expression
+   12           | expression . POWER expression
+   16           | expression . DIVIDE expression
+
+    PLUS       shift, and go to state 39
+    TIMES      shift, and go to state 40
+    SUBSTRACT  shift, and go to state 41
+    DIVIDE     shift, and go to state 42
+    POWER      shift, and go to state 43
+    SEMICOLON  shift, and go to state 44
+
+
+State 29
+
+    6 convert: DOUBLE TIMES ZMIENNA EQUAL . expression SEMICOLON
+
+    SIN     shift, and go to state 24
+    COS     shift, and go to state 25
+    LPAREN  shift, and go to state 26
+    NUMBER  shift, and go to state 27
+
+    expression  go to state 45
+
+
+State 30
+
+    2 convert: DOUBLE ZMIENNA EQUAL expression . SEMICOLON
+    9 expression: expression . PLUS expression
+   10           | expression . TIMES expression
+   11           | expression . SUBSTRACT expression
+   12           | expression . POWER expression
+   16           | expression . DIVIDE expression
+
+    PLUS       shift, and go to state 39
+    TIMES      shift, and go to state 40
+    SUBSTRACT  shift, and go to state 41
+    DIVIDE     shift, and go to state 42
+    POWER      shift, and go to state 43
+    SEMICOLON  shift, and go to state 46
+
+
+State 31
+
+    7 convert: CHAR TIMES ZMIENNA EQUAL . CHARVAL SEMICOLON
+
+    CHARVAL  shift, and go to state 47
+
+
+State 32
+
+    3 convert: CHAR ZMIENNA EQUAL CHARVAL . SEMICOLON
+
+    SEMICOLON  shift, and go to state 48
+
+
+State 33
+
+    8 convert: STRING TIMES ZMIENNA EQUAL . STRINGVAL SEMICOLON
+
+    STRINGVAL  shift, and go to state 49
+
+
+State 34
+
+    4 convert: STRING ZMIENNA EQUAL STRINGVAL . SEMICOLON
+
+    SEMICOLON  shift, and go to state 50
+
+
+State 35
+
+    5 convert: INT TIMES ZMIENNA EQUAL expression . SEMICOLON
+    9 expression: expression . PLUS expression
+   10           | expression . TIMES expression
+   11           | expression . SUBSTRACT expression
+   12           | expression . POWER expression
+   16           | expression . DIVIDE expression
+
+    PLUS       shift, and go to state 39
+    TIMES      shift, and go to state 40
+    SUBSTRACT  shift, and go to state 41
+    DIVIDE     shift, and go to state 42
+    POWER      shift, and go to state 43
+    SEMICOLON  shift, and go to state 51
+
+
+State 36
+
+    9 expression: expression . PLUS expression
+   10           | expression . TIMES expression
+   11           | expression . SUBSTRACT expression
+   12           | expression . POWER expression
+   13           | SIN expression .
+   16           | expression . DIVIDE expression
+
+    $default  reduce using rule 13 (expression)
+
+
+State 37
+
+    9 expression: expression . PLUS expression
+   10           | expression . TIMES expression
+   11           | expression . SUBSTRACT expression
+   12           | expression . POWER expression
+   14           | COS expression .
+   16           | expression . DIVIDE expression
+
+    $default  reduce using rule 14 (expression)
+
+
+State 38
+
+    9 expression: expression . PLUS expression
+   10           | expression . TIMES expression
+   11           | expression . SUBSTRACT expression
+   12           | expression . POWER expression
+   15           | LPAREN expression . RPAREN
+   16           | expression . DIVIDE expression
+
+    PLUS       shift, and go to state 39
+    TIMES      shift, and go to state 40
+    SUBSTRACT  shift, and go to state 41
+    DIVIDE     shift, and go to state 42
+    POWER      shift, and go to state 43
+    RPAREN     shift, and go to state 52
+
+
+State 39
+
+    9 expression: expression PLUS . expression
+
+    SIN     shift, and go to state 24
+    COS     shift, and go to state 25
+    LPAREN  shift, and go to state 26
+    NUMBER  shift, and go to state 27
+
+    expression  go to state 53
+
+
+State 40
+
+   10 expression: expression TIMES . expression
+
+    SIN     shift, and go to state 24
+    COS     shift, and go to state 25
+    LPAREN  shift, and go to state 26
+    NUMBER  shift, and go to state 27
+
+    expression  go to state 54
+
+
+State 41
+
+   11 expression: expression SUBSTRACT . expression
+
+    SIN     shift, and go to state 24
+    COS     shift, and go to state 25
+    LPAREN  shift, and go to state 26
+    NUMBER  shift, and go to state 27
+
+    expression  go to state 55
+
+
+State 42
+
+   16 expression: expression DIVIDE . expression
+
+    SIN     shift, and go to state 24
+    COS     shift, and go to state 25
+    LPAREN  shift, and go to state 26
+    NUMBER  shift, and go to state 27
+
+    expression  go to state 56
+
+
+State 43
+
+   12 expression: expression POWER . expression
+
+    SIN     shift, and go to state 24
+    COS     shift, and go to state 25
+    LPAREN  shift, and go to state 26
+    NUMBER  shift, and go to state 27
+
+    expression  go to state 57
+
+
+State 44
+
+    1 convert: INT ZMIENNA EQUAL expression SEMICOLON .
+
+    $default  reduce using rule 1 (convert)
+
+
+State 45
+
+    6 convert: DOUBLE TIMES ZMIENNA EQUAL expression . SEMICOLON
+    9 expression: expression . PLUS expression
+   10           | expression . TIMES expression
+   11           | expression . SUBSTRACT expression
+   12           | expression . POWER expression
+   16           | expression . DIVIDE expression
+
+    PLUS       shift, and go to state 39
+    TIMES      shift, and go to state 40
+    SUBSTRACT  shift, and go to state 41
+    DIVIDE     shift, and go to state 42
+    POWER      shift, and go to state 43
+    SEMICOLON  shift, and go to state 58
+
+
+State 46
+
+    2 convert: DOUBLE ZMIENNA EQUAL expression SEMICOLON .
+
+    $default  reduce using rule 2 (convert)
+
+
+State 47
+
+    7 convert: CHAR TIMES ZMIENNA EQUAL CHARVAL . SEMICOLON
+
+    SEMICOLON  shift, and go to state 59
+
+
+State 48
+
+    3 convert: CHAR ZMIENNA EQUAL CHARVAL SEMICOLON .
+
+    $default  reduce using rule 3 (convert)
+
+
+State 49
+
+    8 convert: STRING TIMES ZMIENNA EQUAL STRINGVAL . SEMICOLON
+
+    SEMICOLON  shift, and go to state 60
+
+
+State 50
+
+    4 convert: STRING ZMIENNA EQUAL STRINGVAL SEMICOLON .
+
+    $default  reduce using rule 4 (convert)
+
+
+State 51
+
+    5 convert: INT TIMES ZMIENNA EQUAL expression SEMICOLON .
+
+    $default  reduce using rule 5 (convert)
+
+
+State 52
+
+   15 expression: LPAREN expression RPAREN .
+
+    $default  reduce using rule 15 (expression)
+
+
+State 53
+
+    9 expression: expression . PLUS expression
+    9           | expression PLUS expression .
+   10           | expression . TIMES expression
+   11           | expression . SUBSTRACT expression
+   12           | expression . POWER expression
+   16           | expression . DIVIDE expression
+
+    TIMES   shift, and go to state 40
+    DIVIDE  shift, and go to state 42
+    POWER   shift, and go to state 43
+
+    $default  reduce using rule 9 (expression)
+
+
+State 54
+
+    9 expression: expression . PLUS expression
+   10           | expression . TIMES expression
+   10           | expression TIMES expression .
+   11           | expression . SUBSTRACT expression
+   12           | expression . POWER expression
+   16           | expression . DIVIDE expression
+
+    POWER  shift, and go to state 43
+
+    $default  reduce using rule 10 (expression)
+
+
+State 55
+
+    9 expression: expression . PLUS expression
+   10           | expression . TIMES expression
+   11           | expression . SUBSTRACT expression
+   11           | expression SUBSTRACT expression .
+   12           | expression . POWER expression
+   16           | expression . DIVIDE expression
+
+    TIMES   shift, and go to state 40
+    DIVIDE  shift, and go to state 42
+    POWER   shift, and go to state 43
+
+    $default  reduce using rule 11 (expression)
+
+
+State 56
+
+    9 expression: expression . PLUS expression
+   10           | expression . TIMES expression
+   11           | expression . SUBSTRACT expression
+   12           | expression . POWER expression
+   16           | expression . DIVIDE expression
+   16           | expression DIVIDE expression .
+
+    POWER  shift, and go to state 43
+
+    $default  reduce using rule 16 (expression)
+
+
+State 57
+
+    9 expression: expression . PLUS expression
+   10           | expression . TIMES expression
+   11           | expression . SUBSTRACT expression
+   12           | expression . POWER expression
+   12           | expression POWER expression .
+   16           | expression . DIVIDE expression
+
+    $default  reduce using rule 12 (expression)
+
+
+State 58
+
+    6 convert: DOUBLE TIMES ZMIENNA EQUAL expression SEMICOLON .
+
+    $default  reduce using rule 6 (convert)
+
+
+State 59
+
+    7 convert: CHAR TIMES ZMIENNA EQUAL CHARVAL SEMICOLON .
+
+    $default  reduce using rule 7 (convert)
+
+
+State 60
+
+    8 convert: STRING TIMES ZMIENNA EQUAL STRINGVAL SEMICOLON .
+
+    $default  reduce using rule 8 (convert)
